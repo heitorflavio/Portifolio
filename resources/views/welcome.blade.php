@@ -25,6 +25,7 @@
                 transparent 70%
             );
             scroll-behavior: smooth;
+            overflow-x: hidden; /* Previne scroll horizontal */
         }
 
         .section-title {
@@ -109,14 +110,43 @@
             background-size: 50px 50px;
         }
 
-        /* Mobile menu styles */
+        /* Mobile menu styles - CORRIGIDO */
         .mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(17, 24, 39, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: right 0.3s ease-in-out;
+            padding: 2rem;
+            overflow-y: auto;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .mobile-menu.active {
-            transform: translateX(0);
+            right: 0;
+        }
+
+        /* Overlay para quando o menu estiver aberto */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Mobile specific adjustments */
@@ -152,6 +182,11 @@
                 border-right: none;
                 animation: none;
             }
+
+            /* Previne que o body scroll quando o menu está aberto */
+            body.no-scroll {
+                overflow: hidden;
+            }
         }
 
         @media (max-width: 640px) {
@@ -168,7 +203,19 @@
             .stats-grid {
                 grid-template-columns: 1fr !important;
             }
+
+            .mobile-menu {
+                width: 100%;
+                right: -100%;
+            }
         }
+
+        @media(max-height: 800px) {
+            #go-down {
+                display: none !important;
+            }
+        }
+
     </style>
 </head>
 
@@ -237,10 +284,10 @@
 
         <div class="absolute bottom-8 left-6 right-6">
             <div class="flex justify-center space-x-6">
-                <a href="https://github.com" target="_blank" class="text-gray-400 hover:text-cyan-400 transition">
+                <a href="https://github.com/heitorflavio" target="_blank" class="text-gray-400 hover:text-cyan-400 transition">
                     <i class="fab fa-github text-2xl"></i>
                 </a>
-                <a href="https://linkedin.com" target="_blank" class="text-gray-400 hover:text-cyan-400 transition">
+                <a href="https://www.linkedin.com/in/heitorflavio/" target="_blank" class="text-gray-400 hover:text-cyan-400 transition">
                     <i class="fab fa-linkedin text-2xl"></i>
                 </a>
             </div>
@@ -277,7 +324,7 @@
         </a>
     </div>
 
-    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2" id="go-down">
         <a href="#sobre"
            class="animate-bounce inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10">
             <i class="fas fa-chevron-down text-cyan-400"></i>
@@ -305,26 +352,26 @@
                     aplicar minhas habilidades e aprender novas tecnologias.
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-center">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 skill-bars">
+                    <div class="flex items-center mx-auto">
                         <div class="mr-3 text-cyan-400">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <span>Desenvolvimento Web</span>
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center mx-auto">
                         <div class="mr-3 text-cyan-400">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <span>Aplicações em Nuvem</span>
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center mx-auto">
                         <div class="mr-3 text-cyan-400">
                             <i class="fas fa-check-circle"></i>
                         </div>
                         <span>Automações</span>
                     </div>
-                    <div class="flex items-center">
+                    <div class="flex items-center mx-auto">
                         <div class="mr-3 text-cyan-400">
                             <i class="fas fa-check-circle"></i>
                         </div>
@@ -406,7 +453,7 @@
                     </div>
                 </div>
                 <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2">Permuta AI</h3>
+                    <h3 class="text-xl font-semibold mb-2">Permuta aí</h3>
                     <p class="text-gray-400 text-sm mb-4">Plataforma de integração entre empresas e influenciadores.</p>
                     <div class="flex flex-wrap gap-2 mb-4">
                         <span class="px-3 py-1 bg-orange-900/30 text-orange-400 rounded-full text-xs">Laravel</span>
@@ -520,30 +567,30 @@
             <div>
                 <h3 class="text-xl font-semibold mb-6 text-cyan-400">Ferramentas & Competências</h3>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fab fa-laravel text-2xl text-red-500 mr-3"></i>
-                        <span>Laravel Ecosystem</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fab fa-laravel text-xl sm:text-2xl text-red-500 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base">Laravel Ecosystem</span>
                     </div>
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fab fa-vuejs text-2xl text-emerald-400 mr-3"></i>
-                        <span>Vue.js</span>
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fab fa-vuejs text-xl sm:text-2xl text-emerald-400 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base text-center">Vue.js</span>
                     </div>
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fas fa-bolt text-2xl text-orange-400 mr-3"></i>
-                        <span>Livewire & Alpine.js</span>
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fas fa-bolt text-xl sm:text-2xl text-orange-400 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base">Livewire & Alpine.js</span>
                     </div>
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fas fa-database text-2xl text-blue-400 mr-3"></i>
-                        <span>Eloquent/ORM</span>
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fas fa-database text-xl sm:text-2xl text-blue-400 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base">Eloquent ORM</span>
                     </div>
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fas fa-code text-2xl text-purple-400 mr-3"></i>
-                        <span>API REST</span>
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fas fa-code text-xl sm:text-2xl text-purple-400 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base">API REST</span>
                     </div>
-                    <div class="skill-card bg-gray-900/50 p-4 rounded-xl border border-gray-800 flex items-center">
-                        <i class="fas fa-tasks text-2xl text-cyan-400 mr-3"></i>
-                        <span>Testes (Pest)</span>
+                    <div class="skill-card bg-gray-900/50 p-3 sm:p-4 rounded-xl border border-gray-800 text-center">
+                        <i class="fas fa-tasks text-xl sm:text-2xl text-cyan-400 mr-2 sm:mr-3"></i>
+                        <span class="text-sm sm:text-base">Testes (Pest)</span>
                     </div>
                 </div>
             </div>
@@ -703,12 +750,6 @@
         </div>
     </div>
 </section>
-
-<footer class="py-8 text-center text-gray-500 text-sm border-t border-gray-800">
-    <div class="max-w-6xl mx-auto px-4">
-        <p class="mt-2">Desenvolvido com <i class="fas fa-heart text-red-500"></i> e muito código</p>
-    </div>
-</footer>
 
 <script>
     // Animação das barras de habilidade quando a seção é visualizada
