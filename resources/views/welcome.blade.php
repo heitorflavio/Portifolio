@@ -210,7 +210,7 @@
             }
         }
 
-        @media(max-height: 800px) {
+        @media(max-height: 768px) {
             #go-down {
                 display: none !important;
             }
