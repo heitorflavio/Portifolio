@@ -729,10 +729,10 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 pt-6 border-t border-gray-800">
+                    <div class="mt-8 pt-6 border-t border-gray-800 text-center">
                         <h4 class="text-lg font-semibold mb-4 text-cyan-400">Redes Sociais</h4>
 
-                        <div class="flex space-x-4">
+                        <div class="flex space-x-4 justify-center">
                             <a href="https://www.linkedin.com/in/heitorflavio/"
                                class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-cyan-400 hover:text-white transition"
                                target="_blank">
